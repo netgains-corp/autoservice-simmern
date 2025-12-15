@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="de" class="scroll-smooth dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autoservice Simmern | Performance & Repair</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'tech': ['"Chakra Petch"', 'sans-serif'],
+                        'header': ['"Oswald"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            red: '#ff1a1a',      /* Knalliges Rot für Akzente */
+                            darkred: '#990000',  /* Dunkles Rot für Hintergründe */
+                            carbon: '#111111',   /* Sehr dunkles Grau */
+                            metal: '#2a2a2a',    /* Helleres Grau für Karten */
+                        }
+                    },
+                    backgroundImage: {
+                        'carbon-pattern': "url('https://www.transparenttextures.com/patterns/carbon-fibre.png')"
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Fonts: Chakra Petch (Tech/Futuristic) & Oswald (Bold Headlines) -->
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Chakra Petch', sans-serif;
+            background-color: #050505;
+        }
+
+        /* DYNAMIC BACKGROUND LAYER 1: IMAGE */
+        #bg-image {
+            position: fixed;
+            inset: 0;
+            /* Garage / Car Background */
+            background-image: url('https://images.unsplash.com/photo-1486262715619-72a9bf7ea053?q=80&w=1920&auto=format&fit=crop'); 
+            background-size: cover;
+            background-position: center;
+            z-index: -3;
+            /* Noch dunkler für besseren Kontrast des Gradients */
+            filter: brightness(0.15) saturate(0) contrast(1.2); 
+        }
+
+        /* DYNAMIC BACKGROUND LAYER 2: TECH PATTERN */
+        .bg-pattern {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            opacity: 0.15;
+            /* Modernes Punkt-Raster */
+            background-image: radial-gradient(#888 1px, transparent 1px);
+            background-size: 30px 30px;
+            pointer-events: none;
+        }
+
+        /* DYNAMIC BACKGROUND LAYER 3: COLOR GRADIENT GLOW */
+        .bg-gradient-glow {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            /* Komplexer Gradient: Roter Glow von unten rechts + Dunkler Verlauf von oben */
+            background: 
+                radial-gradient(circle at 90% 90%, rgba(200, 0, 0, 0.3) 0%, transparent 60%),
+                radial-gradient(circle at 10% 10%, rgba(50, 0, 0, 0.4) 0%, transparent 50%),
+                linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(10,10,10,0.6) 50%, rgba(0,0,0,0.9) 100%);
+            pointer-events: none;
+        }
+
+        /* CARD STYLES */
+        .service-card {
+            background-color: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(200, 200, 200, 0.5);
+            border-radius: 4px; /* Eckiger für technischen Look */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            color: #111;
+            /* Clip-path für "Cut corners" Look */
+            clip-path: polygon(0 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%);
+        }
+
+        /* DARK MODE CARD (Standard) */
+        .dark .service-card {
+            background-color: rgba(15, 15, 15, 0.85); 
+            border: 1px solid #333;
+            border-left: 4px solid #ff1a1a; /* Roter Akzent links */
+            color: #e5e5e5;
+            box-shadow: 0 0 20px rgba(255, 26, 26, 0.05), 
+                        inset 0 0 40px rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(12px);
+        }
+
+        .dark .service-card:hover {
+            border-color: #ff1a1a;
+            box-shadow: 0 0 40px rgba(255, 26, 26, 0.2);
+            transform: translateY(-2px);
+            background-color: rgba(20, 20, 20, 0.9);
+        }
+
+        /* NEON TEXT GLOW */
+        .text-glow {
+            text-shadow: 0 0 15px rgba(255, 26, 26, 0.8);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 50;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid #ff1a1a;
+            color: #ff1a1a;
+            border-radius: 0; /* Square */
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            clip-path: polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%);
+        }
+        .theme-toggle:hover {
+            background: #ff1a1a;
+            color: #000;
+            box-shadow: 0 0 15px #ff1a1a;
+        }
+
+        /* Accordion Styles */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .accordion-btn.active .icon-chevron {
+            transform: rotate(180deg);
+            color: #ff1a1a;
+        }
+        .accordion-btn.active {
+            background: rgba(255, 26, 26, 0.08);
+            border-left: 2px solid #ff1a1a;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #111; }
+        ::-webkit-scrollbar-thumb { background: #ff1a1a; border-radius: 0; }
+        ::-webkit-scrollbar-thumb:hover { background: #cc0000; }
+    </style>
+</head>
+<body class="py-12 px-4 min-h-screen text-gray-800 dark:text-gray-200 2xl:text-xl">
+    
+    <!-- Background Layers -->
+    <div id="bg-image"></div>
+    <div class="bg-pattern"></div>
+    <div class="bg-gradient-glow"></div>
+
+    <button onclick="toggleDarkMode()" class="theme-toggle uppercase font-bold text-xs tracking-widest">
+        <span class="dark:hidden">Dark</span>
+        <span class="hidden dark:inline">Light</span> Mode
+    </button>
+
+    <div class="w-full max-w-md 2xl:max-w-3xl mx-auto space-y-6 2xl:space-y-10">
+
+        <!-- 1. HERO / LOGO -->
+        <header class="service-card p-8 text-center relative overflow-hidden group">
+            <!-- Decorative Grid Background inside card -->
+            <div class="absolute inset-0 opacity-10 pointer-events-none" 
+                 style="background-image: radial-gradient(#ff1a1a 1px, transparent 1px); background-size: 20px 20px;"></div>
+
+            <div class="relative z-10">
+                <div class="inline-block relative mb-4">
+                    <h1 class="text-5xl sm:text-7xl 2xl:text-8xl font-header font-bold text-black dark:text-white tracking-tighter uppercase italic transform -skew-x-6">
+                        AUTO<span class="text-brand-red text-glow">SERVICE</span>
+                    </h1>
+                    <div class="text-xl sm:text-2xl font-tech tracking-[0.5em] text-gray-500 dark:text-gray-400 mt-2 uppercase">
+                        Simmern
+                    </div>
+                    
+                    <!-- Decorative Lines -->
+                    <div class="h-1 w-24 bg-brand-red mx-auto mt-4 transform -skew-x-12 shadow-[0_0_10px_#ff1a1a]"></div>
+                </div>
+                
+                <div class="flex justify-center mb-6 mt-4">
+                    <div class="inline-flex items-center px-4 py-1 bg-gray-100 dark:bg-brand-red/10 border border-gray-300 dark:border-brand-red/50 transition-colors skew-x-[-10deg]">
+                        <span class="w-2 h-2 bg-red-600 dark:bg-red-500 rounded-full mr-3 animate-pulse shadow-[0_0_8px_#ff0000]"></span>
+                        <span class="text-xs 2xl:text-sm font-bold tracking-widest uppercase text-gray-800 dark:text-brand-red skew-x-[10deg]">Werkstatt Aktiv</span>
+                    </div>
+                </div>
+
+                <p class="text-gray-600 dark:text-gray-400 text-sm 2xl:text-lg font-tech">
+                    Meisterbetrieb im Hunsrück.<br>
+                    <span class="text-brand-red">High Performance.</span> Fairer Preis.
+                </p>
+            </div>
+        </header>
+
+        <!-- 2. INFO & KONTAKT -->
+        <section class="service-card p-6">
+            <h2 class="text-center font-header font-bold text-2xl sm:text-3xl 2xl:text-4xl text-black dark:text-white mb-6 flex items-center justify-center gap-3 uppercase italic">
+                <i class="fa-solid fa-stopwatch text-brand-red"></i> Öffnungszeiten
+            </h2>
+            
+            <div class="space-y-3 text-sm sm:text-base 2xl:text-xl mb-6 font-tech">
+                <div class="flex justify-between border-b border-dashed border-gray-300 dark:border-gray-700 pb-2">
+                    <span class="opacity-70 uppercase tracking-wide">Mo - Fr</span>
+                    <span class="font-bold text-brand-red">08:00 - 18:00</span>
+                </div>
+                <div class="flex justify-between border-b border-dashed border-gray-300 dark:border-gray-700 pb-2">
+                    <span class="opacity-70 uppercase tracking-wide">Samstag</span>
+                    <span class="font-bold text-brand-red">09:00 - 14:00</span>
+                </div>
+                <div class="flex justify-between border-b border-dashed border-gray-300 dark:border-gray-700 pb-2">
+                    <span class="opacity-70 uppercase tracking-wide">Sonntag</span>
+                    <span class="font-bold text-gray-500">Geschlossen</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 gap-4">
+                <a href="tel:0123456789" class="group relative w-full py-4 bg-brand-red hover:bg-red-600 text-white font-bold uppercase tracking-wider overflow-hidden clip-path-polygon transition-all duration-200 flex items-center justify-center gap-3 shadow-[0_0_15px_rgba(255,0,0,0.4)]">
+                    <!-- Glare effect -->
+                    <div class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                    <i class="fa-solid fa-phone transform group-hover:rotate-12 transition-transform"></i>
+                    <span>Termin vereinbaren</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- 3. SERVICES (ACCORDION) -->
+        <section id="services" class="service-card p-4 sm:p-6">
+            <h2 class="text-center font-header font-bold text-2xl sm:text-3xl 2xl:text-4xl text-black dark:text-white mb-2 flex items-center justify-center gap-3 uppercase italic">
+                <i class="fa-solid fa-wrench text-brand-red"></i> Leistungen
+            </h2>
+            <p class="text-center text-xs 2xl:text-sm opacity-60 mb-6 font-tech uppercase tracking-widest">Wähle deinen Service</p>
+            
+            <div class="space-y-3">
+
+                <!-- Kategorie: Inspektion & Wartung -->
+                <div class="border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-black/40">
+                    <button class="accordion-btn w-full px-4 py-4 flex justify-between items-center text-left hover:bg-gray-200 dark:hover:bg-white/5 transition duration-300 group">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-clipboard-check text-brand-red text-xl w-6"></i>
+                            <span class="font-bold text-lg font-header uppercase tracking-wide group-hover:text-brand-red transition-colors">Inspektion & Wartung</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down icon-chevron transition-transform duration-300 text-gray-500"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="p-4 space-y-4 text-sm 2xl:text-lg border-t border-gray-700">
+                            <div class="flex justify-between items-center border-b border-gray-700/50 pb-2">
+                                <div><strong class="text-brand-red">Große Inspektion</strong><br><span class="text-xs opacity-60">Nach Herstellervorgaben inkl. Mobilitätsgarantie</span></div>
+                                <span class="font-mono text-brand-red">ab 149 €</span>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-gray-700/50 pb-2">
+                                <div><strong class="text-brand-red">Ölwechsel Service</strong><br><span class="text-xs opacity-60">Premium Longlife Öl & Markenfilter</span></div>
+                                <span class="font-mono text-brand-red">ab 89 €</span>
+                            </div>
+                            <div class="flex justify-between items-center pb-2">
+                                <div><strong class="text-brand-red">Klimaservice</strong><br><span class="text-xs opacity-60">Dichtheitsprüfung & Befüllung</span></div>
+                                <span class="font-mono text-brand-red">69 €</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kategorie: Reifen & Räder -->
+                <div class="border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-black/40">
+                    <button class="accordion-btn w-full px-4 py-4 flex justify-between items-center text-left hover:bg-gray-200 dark:hover:bg-white/5 transition duration-300 group">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-car-on text-brand-red text-xl w-6"></i>
+                            <span class="font-bold text-lg font-header uppercase tracking-wide group-hover:text-brand-red transition-colors">Reifen & Räder</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down icon-chevron transition-transform duration-300 text-gray-500"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="p-4 space-y-4 text-sm 2xl:text-lg border-t border-gray-700">
+                            <div class="flex justify-between items-center border-b border-gray-700/50 pb-2">
+                                <div><strong>Radwechsel (bis 18 Zoll)</strong><br><span class="text-xs opacity-60">Pro Satz (4 Räder) inkl. Wuchten</span></div>
+                                <span class="font-mono text-brand-red">25 €</span>
+                            </div>
+                             <div class="flex justify-between items-center border-b border-gray-700/50 pb-2">
+                                <div><strong>Radwechsel (ab 19 Zoll)</strong><br><span class="text-xs opacity-60">Pro Satz (4 Räder) inkl. Wuchten</span></div>
+                                <span class="font-mono text-brand-red">35 €</span>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-gray-700/50 pb-2">
+                                <div><strong>Reifenmontage</strong><br><span class="text-xs opacity-60">Aufziehen neuer Reifen & Altreifenentsorgung</span></div>
+                                <span class="font-mono text-brand-red">ab 15 €/Stk</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div><strong>Achsvermessung</strong><br><span class="text-xs opacity-60">3D Laser-Vermessung</span></div>
+                                <span class="font-mono text-brand-red">79 €</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- Kategorie: Tuning & Aufbereitung -->
+                 <div class="border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-black/40">
+                    <button class="accordion-btn w-full px-4 py-4 flex justify-between items-center text-left hover:bg-gray-200 dark:hover:bg-white/5 transition duration-300 group">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-gauge-high text-brand-red text-xl w-6"></i>
+                            <span class="font-bold text-lg font-header uppercase tracking-wide group-hover:text-brand-red transition-colors">Performance & TÜV</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down icon-chevron transition-transform duration-300 text-gray-500"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="p-4 space-y-4 text-sm 2xl:text-lg border-t border-gray-700">
+                            <div class="flex justify-between items-center border-b border-gray-700/50 pb-2">
+                                <div><strong>Hauptuntersuchung (HU/AU)</strong><br><span class="text-xs opacity-60">Jeden Dienstag & Donnerstag im Haus</span></div>
+                                <span class="font-mono text-brand-red">145 €</span>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-gray-700/50 pb-2">
+                                <div><strong>Fahrzeugaufbereitung</strong><br><span class="text-xs opacity-60">Innen & Außen, Politur, Versiegelung</span></div>
+                                <span class="font-mono text-brand-red">ab 199 €</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div><strong>Fehlerspeicher Diagnose</strong><br><span class="text-xs opacity-60">Auslesen & Löschen</span></div>
+                                <span class="font-mono text-brand-red">25 €</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 4. GALERIE -->
+        <section class="service-card p-6">
+            <h2 class="text-center font-header font-bold text-2xl sm:text-3xl 2xl:text-4xl mb-6 flex items-center justify-center gap-3 uppercase italic">
+                <i class="fa-solid fa-camera text-brand-red"></i> Werkstatt
+            </h2>
+            
+            <div class="grid grid-cols-2 gap-2">
+                <div class="h-32 bg-gray-200 dark:bg-gray-800 flex items-center justify-center border border-gray-700 relative overflow-hidden group">
+                    <img src="https://placehold.co/400x300/111111/ff1a1a?text=Foto+Platzhalter" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-500 grayscale group-hover:grayscale-0" alt="Hebebühne">
+                </div>
+                <div class="h-32 bg-gray-200 dark:bg-gray-800 flex items-center justify-center border border-gray-700 relative overflow-hidden group">
+                     <img src="https://placehold.co/400x300/111111/ff1a1a?text=Foto+Platzhalter" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-500 grayscale group-hover:grayscale-0" alt="Diagnose">
+                </div>
+                <div class="h-32 bg-gray-200 dark:bg-gray-800 flex items-center justify-center border border-gray-700 relative overflow-hidden group col-span-2">
+                     <img src="https://placehold.co/800x400/111111/ff1a1a?text=Panorama+Platzhalter" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-500 grayscale group-hover:grayscale-0" alt="Werkstatt Panorama">
+                     <div class="absolute inset-0 flex items-center justify-center">
+                        <span class="bg-black/70 px-4 py-1 text-white text-xs uppercase border border-brand-red">Modernste Technik</span>
+                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. ANFAHRT & FOOTER -->
+        <section class="service-card p-6 pb-8">
+            <h2 class="text-center font-header font-bold text-2xl sm:text-3xl 2xl:text-4xl mb-6 flex items-center justify-center gap-3 uppercase italic">
+                <i class="fa-solid fa-location-dot text-brand-red"></i> Anfahrt
+            </h2>
+            
+            <p class="text-center mb-6 font-medium 2xl:text-lg font-tech text-gray-500 dark:text-gray-400">
+                Hauptstraße 12<br>
+                55469 Simmern / Hunsrück
+            </p>
+
+            <a href="https://maps.google.com/?q=Simmern+Hunsrück" target="_blank" class="block w-full h-40 2xl:h-56 bg-gray-900 rounded-sm relative overflow-hidden group border border-gray-700 transition-all hover:border-brand-red">
+                <!-- Dark map style -->
+                <img src="https://maps.googleapis.com/maps/api/staticmap?center=Simmern&zoom=14&size=800x400&sensor=false&maptype=roadmap&style=feature:all|element:all|saturation:-100|lightness:-50&key=" onerror="this.src='https://placehold.co/800x400/111111/333333?text=KARTE+LADEN'" class="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity">
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <span class="bg-brand-red text-white px-6 py-2 font-bold shadow-[0_0_20px_rgba(255,0,0,0.5)] uppercase tracking-wider transform skew-x-[-10deg] group-hover:scale-110 transition-transform flex items-center">
+                        <i class="fa-solid fa-location-arrow mr-2"></i> Route starten
+                    </span>
+                </div>
+            </a>
+
+            <div class="mt-8 flex justify-center gap-8">
+                <a href="#" class="text-3xl 2xl:text-4xl text-gray-600 dark:text-gray-500 hover:text-brand-red transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="text-3xl 2xl:text-4xl text-gray-600 dark:text-gray-500 hover:text-blue-600 transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" class="text-3xl 2xl:text-4xl text-gray-600 dark:text-gray-500 hover:text-green-500 transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+
+            <p class="text-center text-xs opacity-30 mt-8 font-light uppercase tracking-widest">
+                © 2025 Autoservice Simmern
+            </p>
+        </section>
+
+    </div>
+
+    <script>
+        // Dark Mode Logic (Default Dark)
+        if (localStorage.theme === 'light') {
+            document.documentElement.classList.remove('dark')
+        } else {
+            document.documentElement.classList.add('dark')
+        }
+
+        function toggleDarkMode() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.theme = 'light';
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.theme = 'dark';
+            }
+        }
+
+        // Accordion Logic
+        const accordions = document.querySelectorAll('.accordion-btn');
+
+        accordions.forEach(acc => {
+            acc.addEventListener('click', function() {
+                // Close others
+                accordions.forEach(otherAcc => {
+                    if (otherAcc !== this) {
+                        otherAcc.classList.remove('active');
+                        otherAcc.nextElementSibling.style.maxHeight = null;
+                        // Reset icon
+                        const icon = otherAcc.querySelector('.icon-chevron');
+                        if(icon) icon.style.transform = 'rotate(0deg)';
+                    }
+                });
+
+                // Toggle current
+                this.classList.toggle('active');
+                const panel = this.nextElementSibling;
+                const icon = this.querySelector('.icon-chevron');
+
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                    if(icon) icon.style.transform = 'rotate(0deg)';
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                    if(icon) icon.style.transform = 'rotate(180deg)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
