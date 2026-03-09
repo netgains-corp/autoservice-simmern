@@ -3,7 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Autoservice Simmern | Performance & Repair</title>
+    <meta name="description" content="Autoservice Simmern: Ihr Meisterbetrieb im Hunsrück für High Performance, Inspektionen, Reifenwechsel und TÜV. Jetzt Termin vereinbaren!">
+    <meta name="theme-color" content="#050505">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;1,400;1,700;1,900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -11,15 +22,15 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        'tech': ['"Chakra Petch"', 'sans-serif'],
-                        'header': ['"Oswald"', 'sans-serif'],
+                        'tech': ['"Rajdhani"', 'sans-serif'],
+                        'header': ['"Barlow Condensed"', 'sans-serif'],
                     },
                     colors: {
                         brand: {
-                            red: '#ff1a1a',      /* Knalliges Rot für Akzente */
-                            darkred: '#990000',  /* Dunkles Rot für Hintergründe */
-                            carbon: '#111111',   /* Sehr dunkles Grau */
-                            metal: '#2a2a2a',    /* Helleres Grau für Karten */
+                            red: '#ff1a1a',
+                            darkred: '#990000',
+                            carbon: '#111111',
+                            metal: '#2a2a2a',
                         }
                     },
                     backgroundImage: {
@@ -29,48 +40,38 @@
             }
         }
     </script>
-    <!-- Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Fonts: Chakra Petch (Tech/Futuristic) & Oswald (Bold Headlines) -->
-    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
     
     <style>
         body {
-            font-family: 'Chakra Petch', sans-serif;
+            font-family: 'Rajdhani', sans-serif;
             background-color: #050505;
         }
 
-        /* DYNAMIC BACKGROUND LAYER 1: IMAGE */
         #bg-image {
             position: fixed;
             inset: 0;
-            /* Garage / Car Background */
             background-image: url('https://images.unsplash.com/photo-1486262715619-72a9bf7ea053?q=80&w=1920&auto=format&fit=crop'); 
             background-size: cover;
             background-position: center;
             z-index: -3;
-            /* Noch dunkler für besseren Kontrast des Gradients */
             filter: brightness(0.15) saturate(0) contrast(1.2); 
+            will-change: transform; /* GPU Beschleunigung für Fixed BGs */
         }
 
-        /* DYNAMIC BACKGROUND LAYER 2: TECH PATTERN */
         .bg-pattern {
             position: fixed;
             inset: 0;
             z-index: -2;
             opacity: 0.15;
-            /* Modernes Punkt-Raster */
             background-image: radial-gradient(#888 1px, transparent 1px);
             background-size: 30px 30px;
             pointer-events: none;
         }
 
-        /* DYNAMIC BACKGROUND LAYER 3: COLOR GRADIENT GLOW */
         .bg-gradient-glow {
             position: fixed;
             inset: 0;
             z-index: -1;
-            /* Komplexer Gradient: Roter Glow von unten rechts + Dunkler Verlauf von oben */
             background: 
                 radial-gradient(circle at 90% 90%, rgba(200, 0, 0, 0.3) 0%, transparent 60%),
                 radial-gradient(circle at 10% 10%, rgba(50, 0, 0, 0.4) 0%, transparent 50%),
@@ -78,26 +79,22 @@
             pointer-events: none;
         }
 
-        /* CARD STYLES */
         .service-card {
             background-color: rgba(255, 255, 255, 0.95);
             border: 1px solid rgba(200, 200, 200, 0.5);
-            border-radius: 4px; /* Eckiger für technischen Look */
+            border-radius: 4px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             transition: all 0.3s ease;
             color: #111;
-            /* Clip-path für "Cut corners" Look */
             clip-path: polygon(0 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%);
         }
 
-        /* DARK MODE CARD (Standard) */
         .dark .service-card {
             background-color: rgba(15, 15, 15, 0.85); 
             border: 1px solid #333;
-            border-left: 4px solid #ff1a1a; /* Roter Akzent links */
+            border-left: 4px solid #ff1a1a;
             color: #e5e5e5;
-            box-shadow: 0 0 20px rgba(255, 26, 26, 0.05), 
-                        inset 0 0 40px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 0 20px rgba(255, 26, 26, 0.05), inset 0 0 40px rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(12px);
         }
 
@@ -108,7 +105,6 @@
             background-color: rgba(20, 20, 20, 0.9);
         }
 
-        /* NEON TEXT GLOW */
         .text-glow {
             text-shadow: 0 0 15px rgba(255, 26, 26, 0.8);
         }
@@ -121,7 +117,7 @@
             background: rgba(0, 0, 0, 0.6);
             border: 1px solid #ff1a1a;
             color: #ff1a1a;
-            border-radius: 0; /* Square */
+            border-radius: 0;
             padding: 10px;
             cursor: pointer;
             transition: all 0.3s;
@@ -133,11 +129,14 @@
             box-shadow: 0 0 15px #ff1a1a;
         }
 
-        /* Accordion Styles */
         .accordion-content {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            visibility: hidden; /* A11y */
+        }
+        .accordion-content.open {
+            visibility: visible;
         }
         .accordion-btn.active .icon-chevron {
             transform: rotate(180deg);
@@ -148,7 +147,6 @@
             border-left: 2px solid #ff1a1a;
         }
 
-        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #111; }
         ::-webkit-scrollbar-thumb { background: #ff1a1a; border-radius: 0; }
@@ -157,23 +155,19 @@
 </head>
 <body class="py-12 px-4 min-h-screen text-gray-800 dark:text-gray-200 2xl:text-xl">
     
-    <!-- Background Layers -->
-    <div id="bg-image"></div>
-    <div class="bg-pattern"></div>
-    <div class="bg-gradient-glow"></div>
+    <div id="bg-image" aria-hidden="true"></div>
+    <div class="bg-pattern" aria-hidden="true"></div>
+    <div class="bg-gradient-glow" aria-hidden="true"></div>
 
-    <button onclick="toggleDarkMode()" class="theme-toggle uppercase font-bold text-xs tracking-widest">
+    <button onclick="toggleDarkMode()" class="theme-toggle uppercase font-bold text-xs tracking-widest" aria-label="Erscheinungsbild wechseln">
         <span class="dark:hidden">Dark</span>
         <span class="hidden dark:inline">Light</span> Mode
     </button>
 
-    <div class="w-full max-w-md 2xl:max-w-3xl mx-auto space-y-6 2xl:space-y-10">
+    <main class="w-full max-w-md 2xl:max-w-3xl mx-auto space-y-6 2xl:space-y-10">
 
-        <!-- 1. HERO / LOGO -->
         <header class="service-card p-8 text-center relative overflow-hidden group">
-            <!-- Decorative Grid Background inside card -->
-            <div class="absolute inset-0 opacity-10 pointer-events-none" 
-                 style="background-image: radial-gradient(#ff1a1a 1px, transparent 1px); background-size: 20px 20px;"></div>
+            <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(#ff1a1a 1px, transparent 1px); background-size: 20px 20px;" aria-hidden="true"></div>
 
             <div class="relative z-10">
                 <div class="inline-block relative mb-4">
@@ -183,14 +177,12 @@
                     <div class="text-xl sm:text-2xl font-tech tracking-[0.5em] text-gray-500 dark:text-gray-400 mt-2 uppercase">
                         Simmern
                     </div>
-                    
-                    <!-- Decorative Lines -->
-                    <div class="h-1 w-24 bg-brand-red mx-auto mt-4 transform -skew-x-12 shadow-[0_0_10px_#ff1a1a]"></div>
+                    <div class="h-1 w-24 bg-brand-red mx-auto mt-4 transform -skew-x-12 shadow-[0_0_10px_#ff1a1a]" aria-hidden="true"></div>
                 </div>
                 
                 <div class="flex justify-center mb-6 mt-4">
                     <div class="inline-flex items-center px-4 py-1 bg-gray-100 dark:bg-brand-red/10 border border-gray-300 dark:border-brand-red/50 transition-colors skew-x-[-10deg]">
-                        <span class="w-2 h-2 bg-red-600 dark:bg-red-500 rounded-full mr-3 animate-pulse shadow-[0_0_8px_#ff0000]"></span>
+                        <span class="w-2 h-2 bg-red-600 dark:bg-red-500 rounded-full mr-3 animate-pulse shadow-[0_0_8px_#ff0000]" aria-hidden="true"></span>
                         <span class="text-xs 2xl:text-sm font-bold tracking-widest uppercase text-gray-800 dark:text-brand-red skew-x-[10deg]">Werkstatt Aktiv</span>
                     </div>
                 </div>
@@ -202,10 +194,9 @@
             </div>
         </header>
 
-        <!-- 2. INFO & KONTAKT -->
         <section class="service-card p-6">
             <h2 class="text-center font-header font-bold text-2xl sm:text-3xl 2xl:text-4xl text-black dark:text-white mb-6 flex items-center justify-center gap-3 uppercase italic">
-                <i class="fa-solid fa-stopwatch text-brand-red"></i> Öffnungszeiten
+                <i class="fa-solid fa-stopwatch text-brand-red" aria-hidden="true"></i> Öffnungszeiten
             </h2>
             
             <div class="space-y-3 text-sm sm:text-base 2xl:text-xl mb-6 font-tech">
@@ -225,33 +216,29 @@
 
             <div class="grid grid-cols-1 gap-4">
                 <a href="tel:0123456789" class="group relative w-full py-4 bg-brand-red hover:bg-red-600 text-white font-bold uppercase tracking-wider overflow-hidden clip-path-polygon transition-all duration-200 flex items-center justify-center gap-3 shadow-[0_0_15px_rgba(255,0,0,0.4)]">
-                    <!-- Glare effect -->
-                    <div class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-                    <i class="fa-solid fa-phone transform group-hover:rotate-12 transition-transform"></i>
+                    <div class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" aria-hidden="true"></div>
+                    <i class="fa-solid fa-phone transform group-hover:rotate-12 transition-transform" aria-hidden="true"></i>
                     <span>Termin vereinbaren</span>
                 </a>
             </div>
         </section>
 
-        <!-- 3. SERVICES (ACCORDION) -->
         <section id="services" class="service-card p-4 sm:p-6">
             <h2 class="text-center font-header font-bold text-2xl sm:text-3xl 2xl:text-4xl text-black dark:text-white mb-2 flex items-center justify-center gap-3 uppercase italic">
-                <i class="fa-solid fa-wrench text-brand-red"></i> Leistungen
+                <i class="fa-solid fa-wrench text-brand-red" aria-hidden="true"></i> Leistungen
             </h2>
             <p class="text-center text-xs 2xl:text-sm opacity-60 mb-6 font-tech uppercase tracking-widest">Wähle deinen Service</p>
             
             <div class="space-y-3">
-
-                <!-- Kategorie: Inspektion & Wartung -->
                 <div class="border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-black/40">
-                    <button class="accordion-btn w-full px-4 py-4 flex justify-between items-center text-left hover:bg-gray-200 dark:hover:bg-white/5 transition duration-300 group">
+                    <button aria-expanded="false" aria-controls="panel-inspektion" class="accordion-btn w-full px-4 py-4 flex justify-between items-center text-left hover:bg-gray-200 dark:hover:bg-white/5 transition duration-300 group">
                         <div class="flex items-center gap-3">
-                            <i class="fa-solid fa-clipboard-check text-brand-red text-xl w-6"></i>
+                            <i class="fa-solid fa-clipboard-check text-brand-red text-xl w-6" aria-hidden="true"></i>
                             <span class="font-bold text-lg font-header uppercase tracking-wide group-hover:text-brand-red transition-colors">Inspektion & Wartung</span>
                         </div>
-                        <i class="fa-solid fa-chevron-down icon-chevron transition-transform duration-300 text-gray-500"></i>
+                        <i class="fa-solid fa-chevron-down icon-chevron transition-transform duration-300 text-gray-500" aria-hidden="true"></i>
                     </button>
-                    <div class="accordion-content">
+                    <div id="panel-inspektion" class="accordion-content">
                         <div class="p-4 space-y-4 text-sm 2xl:text-lg border-t border-gray-700">
                             <div class="flex justify-between items-center border-b border-gray-700/50 pb-2">
                                 <div><strong class="text-brand-red">Große Inspektion</strong><br><span class="text-xs opacity-60">Nach Herstellervorgaben inkl. Mobilitätsgarantie</span></div>
@@ -269,16 +256,15 @@
                     </div>
                 </div>
 
-                <!-- Kategorie: Reifen & Räder -->
                 <div class="border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-black/40">
-                    <button class="accordion-btn w-full px-4 py-4 flex justify-between items-center text-left hover:bg-gray-200 dark:hover:bg-white/5 transition duration-300 group">
+                    <button aria-expanded="false" aria-controls="panel-reifen" class="accordion-btn w-full px-4 py-4 flex justify-between items-center text-left hover:bg-gray-200 dark:hover:bg-white/5 transition duration-300 group">
                         <div class="flex items-center gap-3">
-                            <i class="fa-solid fa-car-on text-brand-red text-xl w-6"></i>
+                            <i class="fa-solid fa-car-on text-brand-red text-xl w-6" aria-hidden="true"></i>
                             <span class="font-bold text-lg font-header uppercase tracking-wide group-hover:text-brand-red transition-colors">Reifen & Räder</span>
                         </div>
-                        <i class="fa-solid fa-chevron-down icon-chevron transition-transform duration-300 text-gray-500"></i>
+                        <i class="fa-solid fa-chevron-down icon-chevron transition-transform duration-300 text-gray-500" aria-hidden="true"></i>
                     </button>
-                    <div class="accordion-content">
+                    <div id="panel-reifen" class="accordion-content">
                         <div class="p-4 space-y-4 text-sm 2xl:text-lg border-t border-gray-700">
                             <div class="flex justify-between items-center border-b border-gray-700/50 pb-2">
                                 <div><strong>Radwechsel (bis 18 Zoll)</strong><br><span class="text-xs opacity-60">Pro Satz (4 Räder) inkl. Wuchten</span></div>
@@ -300,16 +286,15 @@
                     </div>
                 </div>
 
-                 <!-- Kategorie: Tuning & Aufbereitung -->
                  <div class="border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-black/40">
-                    <button class="accordion-btn w-full px-4 py-4 flex justify-between items-center text-left hover:bg-gray-200 dark:hover:bg-white/5 transition duration-300 group">
+                    <button aria-expanded="false" aria-controls="panel-tuning" class="accordion-btn w-full px-4 py-4 flex justify-between items-center text-left hover:bg-gray-200 dark:hover:bg-white/5 transition duration-300 group">
                         <div class="flex items-center gap-3">
-                            <i class="fa-solid fa-gauge-high text-brand-red text-xl w-6"></i>
+                            <i class="fa-solid fa-gauge-high text-brand-red text-xl w-6" aria-hidden="true"></i>
                             <span class="font-bold text-lg font-header uppercase tracking-wide group-hover:text-brand-red transition-colors">Performance & TÜV</span>
                         </div>
-                        <i class="fa-solid fa-chevron-down icon-chevron transition-transform duration-300 text-gray-500"></i>
+                        <i class="fa-solid fa-chevron-down icon-chevron transition-transform duration-300 text-gray-500" aria-hidden="true"></i>
                     </button>
-                    <div class="accordion-content">
+                    <div id="panel-tuning" class="accordion-content">
                         <div class="p-4 space-y-4 text-sm 2xl:text-lg border-t border-gray-700">
                             <div class="flex justify-between items-center border-b border-gray-700/50 pb-2">
                                 <div><strong>Hauptuntersuchung (HU/AU)</strong><br><span class="text-xs opacity-60">Jeden Dienstag & Donnerstag im Haus</span></div>
@@ -326,68 +311,63 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </section>
 
-        <!-- 4. GALERIE -->
         <section class="service-card p-6">
             <h2 class="text-center font-header font-bold text-2xl sm:text-3xl 2xl:text-4xl mb-6 flex items-center justify-center gap-3 uppercase italic">
-                <i class="fa-solid fa-camera text-brand-red"></i> Werkstatt
+                <i class="fa-solid fa-camera text-brand-red" aria-hidden="true"></i> Werkstatt
             </h2>
             
             <div class="grid grid-cols-2 gap-2">
                 <div class="h-32 bg-gray-200 dark:bg-gray-800 flex items-center justify-center border border-gray-700 relative overflow-hidden group">
-                    <img src="https://placehold.co/400x300/111111/ff1a1a?text=Foto+Platzhalter" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-500 grayscale group-hover:grayscale-0" alt="Hebebühne">
+                    <img src="https://placehold.co/400x300/111111/ff1a1a?text=Foto+Platzhalter" width="400" height="300" loading="lazy" decoding="async" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-500 grayscale group-hover:grayscale-0" alt="Hebebühne in der Autowerkstatt">
                 </div>
                 <div class="h-32 bg-gray-200 dark:bg-gray-800 flex items-center justify-center border border-gray-700 relative overflow-hidden group">
-                     <img src="https://placehold.co/400x300/111111/ff1a1a?text=Foto+Platzhalter" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-500 grayscale group-hover:grayscale-0" alt="Diagnose">
+                     <img src="https://placehold.co/400x300/111111/ff1a1a?text=Foto+Platzhalter" width="400" height="300" loading="lazy" decoding="async" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-500 grayscale group-hover:grayscale-0" alt="Fahrzeug Diagnosegerät">
                 </div>
                 <div class="h-32 bg-gray-200 dark:bg-gray-800 flex items-center justify-center border border-gray-700 relative overflow-hidden group col-span-2">
-                     <img src="https://placehold.co/800x400/111111/ff1a1a?text=Panorama+Platzhalter" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-500 grayscale group-hover:grayscale-0" alt="Werkstatt Panorama">
-                     <div class="absolute inset-0 flex items-center justify-center">
+                     <img src="https://placehold.co/800x400/111111/ff1a1a?text=Panorama+Platzhalter" width="800" height="400" loading="lazy" decoding="async" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-500 grayscale group-hover:grayscale-0" alt="Panoramablick der Werkstatt">
+                     <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
                         <span class="bg-black/70 px-4 py-1 text-white text-xs uppercase border border-brand-red">Modernste Technik</span>
                      </div>
                 </div>
             </div>
         </section>
 
-        <!-- 6. ANFAHRT & FOOTER -->
         <section class="service-card p-6 pb-8">
             <h2 class="text-center font-header font-bold text-2xl sm:text-3xl 2xl:text-4xl mb-6 flex items-center justify-center gap-3 uppercase italic">
-                <i class="fa-solid fa-location-dot text-brand-red"></i> Anfahrt
+                <i class="fa-solid fa-location-dot text-brand-red" aria-hidden="true"></i> Anfahrt
             </h2>
             
-            <p class="text-center mb-6 font-medium 2xl:text-lg font-tech text-gray-500 dark:text-gray-400">
+            <address class="text-center mb-6 font-medium 2xl:text-lg font-tech text-gray-500 dark:text-gray-400 not-italic">
                 Hauptstraße 12<br>
                 55469 Simmern / Hunsrück
-            </p>
+            </address>
 
-            <a href="https://maps.google.com/?q=Simmern+Hunsrück" target="_blank" class="block w-full h-40 2xl:h-56 bg-gray-900 rounded-sm relative overflow-hidden group border border-gray-700 transition-all hover:border-brand-red">
-                <!-- Dark map style -->
-                <img src="https://maps.googleapis.com/maps/api/staticmap?center=Simmern&zoom=14&size=800x400&sensor=false&maptype=roadmap&style=feature:all|element:all|saturation:-100|lightness:-50&key=" onerror="this.src='https://placehold.co/800x400/111111/333333?text=KARTE+LADEN'" class="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity">
-                <div class="absolute inset-0 flex items-center justify-center">
+            <a href="https://maps.google.com/?q=Simmern+Hunsrück" target="_blank" rel="noopener noreferrer" aria-label="Route nach Simmern auf Google Maps starten" class="block w-full h-40 2xl:h-56 bg-gray-900 rounded-sm relative overflow-hidden group border border-gray-700 transition-all hover:border-brand-red">
+                <img src="https://maps.googleapis.com/maps/api/staticmap?center=Simmern&zoom=14&size=800x400&sensor=false&maptype=roadmap&style=feature:all|element:all|saturation:-100|lightness:-50&key=" width="800" height="400" loading="lazy" decoding="async" onerror="this.src='https://placehold.co/800x400/111111/333333?text=KARTE+LADEN'" class="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity" alt="Karte mit Standort Simmern">
+                <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
                     <span class="bg-brand-red text-white px-6 py-2 font-bold shadow-[0_0_20px_rgba(255,0,0,0.5)] uppercase tracking-wider transform skew-x-[-10deg] group-hover:scale-110 transition-transform flex items-center">
-                        <i class="fa-solid fa-location-arrow mr-2"></i> Route starten
+                        <i class="fa-solid fa-location-arrow mr-2" aria-hidden="true"></i> Route starten
                     </span>
                 </div>
             </a>
 
             <div class="mt-8 flex justify-center gap-8">
-                <a href="#" class="text-3xl 2xl:text-4xl text-gray-600 dark:text-gray-500 hover:text-brand-red transition-colors"><i class="fa-brands fa-instagram"></i></a>
-                <a href="#" class="text-3xl 2xl:text-4xl text-gray-600 dark:text-gray-500 hover:text-blue-600 transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
-                <a href="#" class="text-3xl 2xl:text-4xl text-gray-600 dark:text-gray-500 hover:text-green-500 transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
+                <a href="#" aria-label="Instagram Profil" class="text-3xl 2xl:text-4xl text-gray-600 dark:text-gray-500 hover:text-brand-red transition-colors"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+                <a href="#" aria-label="Facebook Profil" class="text-3xl 2xl:text-4xl text-gray-600 dark:text-gray-500 hover:text-blue-600 transition-colors"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>
+                <a href="#" aria-label="WhatsApp Kontakt" class="text-3xl 2xl:text-4xl text-gray-600 dark:text-gray-500 hover:text-green-500 transition-colors"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></a>
             </div>
 
-            <p class="text-center text-xs opacity-30 mt-8 font-light uppercase tracking-widest">
-                © 2025 Autoservice Simmern
-            </p>
+            <footer class="text-center text-xs opacity-30 mt-8 font-light uppercase tracking-widest">
+                © 2026 Autoservice Simmern
+            </footer>
         </section>
 
-    </div>
+    </main>
 
     <script>
-        // Dark Mode Logic (Default Dark)
         if (localStorage.theme === 'light') {
             document.documentElement.classList.remove('dark')
         } else {
@@ -404,17 +384,19 @@
             }
         }
 
-        // Accordion Logic
         const accordions = document.querySelectorAll('.accordion-btn');
 
         accordions.forEach(acc => {
             acc.addEventListener('click', function() {
+                const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                
                 // Close others
                 accordions.forEach(otherAcc => {
                     if (otherAcc !== this) {
                         otherAcc.classList.remove('active');
+                        otherAcc.setAttribute('aria-expanded', 'false');
+                        otherAcc.nextElementSibling.classList.remove('open');
                         otherAcc.nextElementSibling.style.maxHeight = null;
-                        // Reset icon
                         const icon = otherAcc.querySelector('.icon-chevron');
                         if(icon) icon.style.transform = 'rotate(0deg)';
                     }
@@ -422,13 +404,16 @@
 
                 // Toggle current
                 this.classList.toggle('active');
+                this.setAttribute('aria-expanded', !isExpanded);
                 const panel = this.nextElementSibling;
                 const icon = this.querySelector('.icon-chevron');
 
                 if (panel.style.maxHeight) {
                     panel.style.maxHeight = null;
+                    panel.classList.remove('open');
                     if(icon) icon.style.transform = 'rotate(0deg)';
                 } else {
+                    panel.classList.add('open');
                     panel.style.maxHeight = panel.scrollHeight + "px";
                     if(icon) icon.style.transform = 'rotate(180deg)';
                 }
