@@ -3,8 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Autoservice Simmern - Ihr Meisterbetrieb für Reparaturen, Reifen und Performance im Hunsrück.">
+    <meta name="description" content="Autoservice Simmern - Ihr Meisterbetrieb für Reparaturen, Reifen und Performance im Hunsrück. Maximale Performance für Ihr Fahrzeug.">
     <title>Autoservice Simmern | Performance & Repair</title>
+
+    <!-- 1. LCP OPTIMIERUNG: Preload des Haupt-Hintergrundbildes mit hoher Priorität -->
+    <link rel="preload" href="https://images.unsplash.com/photo-1486262715619-72a9bf7ea053?q=80&w=1920&auto=format&fit=crop" as="image" fetchpriority="high">
+    
+    <!-- 2. FONTS: Preload & Display Swap -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -17,32 +26,28 @@
                     },
                     colors: {
                         brand: {
-                            red: '#ff1a1a',      /* Knalliges Rot für Akzente */
-                            darkred: '#990000',  /* Dunkles Rot für Hintergründe */
-                            carbon: '#111111',   /* Sehr dunkles Grau */
-                            metal: '#2a2a2a',    /* Helleres Grau für Karten */
+                            red: '#ff1a1a',
+                            darkred: '#990000',
+                            carbon: '#111111',
+                            metal: '#2a2a2a',
                         }
-                    },
-                    backgroundImage: {
-                        'carbon-pattern': "url('https://www.transparenttextures.com/patterns/carbon-fibre.png')"
                     }
                 }
             }
         }
     </script>
-    <!-- Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
     
+    <!-- FontAwesome asynchron laden -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+
     <style>
+        /* CRITICAL CSS: Sofort benötigt für den ersten Paint */
         body {
             font-family: 'Chakra Petch', sans-serif;
             background-color: #050505;
-            overflow: hidden; /* Verhindert doppeltes Scrollen */
+            overflow: hidden;
         }
 
-        /* DYNAMIC BACKGROUND */
         #bg-image {
             position: fixed;
             inset: 0;
@@ -56,35 +61,25 @@
         .bg-overlay {
             position: fixed;
             inset: 0;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(20,0,0,0.9));
+            background: linear-gradient(to bottom, rgba(0,0,0,0.85), rgba(20,0,0,0.95));
             z-index: -1;
         }
 
-        /* CARD STYLES */
         .service-card {
-            background-color: rgba(255, 255, 255, 0.95);
+            background-color: #ffffff;
             border: 1px solid rgba(200, 200, 200, 0.5);
             border-radius: 4px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
             color: #111;
             clip-path: polygon(0 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%);
+            transition: transform 0.2s ease;
         }
 
         .dark .service-card {
-            background-color: rgba(17, 17, 17, 0.85); 
+            background-color: #111111; /* Verzicht auf backdrop-filter für Mobile-Performance */
             border: 1px solid #333;
             border-left: 4px solid #ff1a1a;
             color: #e5e5e5;
-            box-shadow: 0 0 20px rgba(255, 26, 26, 0.15), 
-                        inset 0 0 40px rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(12px);
-        }
-
-        .dark .service-card:hover {
-            border-color: #ff1a1a;
-            box-shadow: 0 0 30px rgba(255, 26, 26, 0.3);
-            transform: translateY(-2px);
         }
 
         .text-glow { text-shadow: 0 0 10px rgba(255, 26, 26, 0.5); }
@@ -94,26 +89,21 @@
             top: 20px;
             right: 20px;
             z-index: 50;
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.8);
             border: 1px solid #ff1a1a;
             color: #ff1a1a;
-            border-radius: 0;
             padding: 10px;
             cursor: pointer;
-            transition: all 0.3s;
             clip-path: polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%);
         }
 
-        /* Accordion Styles */
         .accordion-content {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .accordion-btn.active .icon-chevron { transform: rotate(180deg); color: #ff1a1a; }
-        .accordion-btn.active { background: rgba(255, 26, 26, 0.1); border-left: 2px solid #ff1a1a; }
 
-        /* --- RUBBER BANDING CSS --- */
+        /* RUBBER BANDING STRUCTURE */
         .scroll-container {
             position: fixed;
             inset: 0;
@@ -122,19 +112,13 @@
             overscroll-behavior-y: none;
             z-index: 10;
         }
-        /* Accessability Fix: Tastaturfokus ohne Rahmen */
         .scroll-container:focus { outline: none; }
-        
-        .scroll-content {
-            min-height: 101%;
-            /* will-change wird dynamisch per JS gesteuert */
-        }
+        .scroll-content { min-height: 101%; }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #111; }
-        ::-webkit-scrollbar-thumb { background: #ff1a1a; border-radius: 0; }
-        ::-webkit-scrollbar-thumb:hover { background: #cc0000; }
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #ff1a1a; }
     </style>
 </head>
 <body class="text-gray-800 dark:text-gray-200 2xl:text-xl">
@@ -142,271 +126,169 @@
     <div id="bg-image"></div>
     <div class="bg-overlay"></div>
 
-    <button onclick="toggleDarkMode()" class="theme-toggle uppercase font-bold text-xs tracking-widest" aria-label="Erscheinungsbild umschalten">
+    <button onclick="toggleDarkMode()" class="theme-toggle uppercase font-bold text-xs tracking-widest" aria-label="Dark Mode umschalten">
         <span class="dark:hidden">Dark</span>
         <span class="hidden dark:inline">Light</span> Mode
     </button>
 
-    <!-- Rubber Band Container -->
-    <div id="scroll-container" class="scroll-container" tabindex="0" aria-label="Seiteninhalt">
+    <div id="scroll-container" class="scroll-container" tabindex="0" aria-label="Hauptinhalt Autoservice Simmern">
         <div id="scroll-content" class="scroll-content">
             <div class="w-full max-w-md 2xl:max-w-3xl mx-auto space-y-6 2xl:space-y-10 py-12 px-4">
 
-                <!-- 1. HERO / LOGO -->
-                <header class="service-card p-8 text-center relative overflow-hidden group">
-                    <div class="absolute inset-0 opacity-10 pointer-events-none" 
-                         style="background-image: radial-gradient(#ff1a1a 1px, transparent 1px); background-size: 20px 20px;"></div>
-
+                <!-- 1. HERO -->
+                <header class="service-card p-8 text-center relative overflow-hidden">
                     <div class="relative z-10">
                         <div class="inline-block relative mb-4">
                             <h1 class="text-5xl sm:text-7xl 2xl:text-8xl font-header font-bold text-black dark:text-white tracking-tighter uppercase italic transform -skew-x-6">
                                 AUTO<span class="text-brand-red text-glow">SERVICE</span>
                             </h1>
-                            <div class="text-xl sm:text-2xl font-tech tracking-[0.5em] text-gray-500 dark:text-gray-400 mt-2 uppercase">Simmern</div>
-                            <div class="h-1 w-24 bg-brand-red mx-auto mt-4 transform -skew-x-12 shadow-[0_0_10px_#ff1a1a]"></div>
+                            <div class="text-xl sm:text-2xl font-tech tracking-[0.3em] text-gray-500 dark:text-gray-400 mt-2 uppercase">Simmern</div>
                         </div>
-                        
-                        <div class="flex justify-center mb-6 mt-4">
-                            <div class="inline-flex items-center px-4 py-1 bg-gray-100 dark:bg-brand-red/10 border border-gray-300 dark:border-brand-red/50 transition-colors skew-x-[-10deg]">
-                                <span class="w-2 h-2 bg-red-600 dark:bg-red-500 rounded-full mr-3 animate-pulse shadow-[0_0_8px_#ff0000]"></span>
-                                <span class="text-xs 2xl:text-sm font-bold tracking-widest uppercase text-gray-800 dark:text-brand-red skew-x-[10deg]">Werkstatt Aktiv</span>
+                        <div class="flex justify-center mb-6">
+                            <div class="inline-flex items-center px-4 py-1 bg-gray-100 dark:bg-brand-red/10 border border-gray-300 dark:border-brand-red/50">
+                                <span class="w-2 h-2 bg-red-600 rounded-full mr-3 animate-pulse"></span>
+                                <span class="text-xs font-bold uppercase tracking-widest text-gray-800 dark:text-brand-red">Werkstatt Aktiv</span>
                             </div>
                         </div>
-
-                        <p class="text-gray-600 dark:text-gray-400 text-sm 2xl:text-lg font-tech">
-                            Meisterbetrieb im Hunsrück.<br>
-                            <span class="text-brand-red">High Performance.</span> Fairer Preis.
-                        </p>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm font-tech">Meisterbetrieb im Hunsrück. Performance & Qualität.</p>
                     </div>
                 </header>
 
-                <!-- 2. INFO & KONTAKT -->
+                <!-- 2. INFO -->
                 <section class="service-card p-6">
-                    <h2 class="text-center font-header font-bold text-2xl sm:text-3xl 2xl:text-4xl text-black dark:text-white mb-6 flex items-center justify-center gap-3 uppercase italic">
-                        <i class="fa-solid fa-stopwatch text-brand-red"></i> Öffnungszeiten
+                    <h2 class="text-center font-header font-bold text-2xl text-black dark:text-white mb-6 uppercase italic">
+                        <i class="fa-solid fa-stopwatch text-brand-red mr-2"></i> Öffnungszeiten
                     </h2>
-                    
-                    <div class="space-y-3 text-sm sm:text-base 2xl:text-xl mb-6 font-tech">
-                        <div class="flex justify-between border-b border-dashed border-gray-300 dark:border-gray-700 pb-2">
-                            <span class="opacity-70 uppercase tracking-wide">Mo - Fr</span>
+                    <div class="space-y-3 font-tech text-sm">
+                        <div class="flex justify-between border-b border-gray-700/30 pb-2">
+                            <span class="text-gray-500 uppercase">Mo - Fr</span>
                             <span class="font-bold text-brand-red">08:00 - 18:00</span>
                         </div>
-                        <div class="flex justify-between border-b border-dashed border-gray-300 dark:border-gray-700 pb-2">
-                            <span class="opacity-70 uppercase tracking-wide">Samstag</span>
+                        <div class="flex justify-between border-b border-gray-700/30 pb-2">
+                            <span class="text-gray-500 uppercase">Samstag</span>
                             <span class="font-bold text-brand-red">09:00 - 14:00</span>
                         </div>
-                        <div class="flex justify-between border-b border-dashed border-gray-300 dark:border-gray-700 pb-2">
-                            <span class="opacity-70 uppercase tracking-wide">Sonntag</span>
-                            <span class="font-bold text-gray-500">Geschlossen</span>
-                        </div>
                     </div>
-
-                    <div class="grid grid-cols-1 gap-4">
-                        <a href="tel:0123456789" class="group relative w-full py-4 bg-brand-red hover:bg-red-600 text-white font-bold uppercase tracking-wider overflow-hidden clip-path-polygon transition-all duration-200 flex items-center justify-center gap-3 shadow-[0_0_15px_rgba(255,0,0,0.4)]" aria-label="Jetzt anrufen und Termin vereinbaren">
-                            <div class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-                            <i class="fa-solid fa-phone transform group-hover:rotate-12 transition-transform"></i>
-                            <span>Termin vereinbaren</span>
+                    <div class="mt-6">
+                        <a href="tel:0123456789" class="block w-full py-4 bg-brand-red text-white text-center font-bold uppercase tracking-widest shadow-lg hover:bg-red-600 transition-colors" aria-label="Termin telefonisch vereinbaren">
+                            <i class="fa-solid fa-phone mr-2"></i> Termin vereinbaren
                         </a>
                     </div>
                 </section>
 
                 <!-- 3. SERVICES -->
-                <section id="services" class="service-card p-4 sm:p-6">
-                    <h2 class="text-center font-header font-bold text-2xl sm:text-3xl 2xl:text-4xl text-black dark:text-white mb-2 flex items-center justify-center gap-3 uppercase italic">
-                        <i class="fa-solid fa-wrench text-brand-red"></i> Leistungen
-                    </h2>
-                    <p class="text-center text-xs 2xl:text-sm opacity-60 mb-6 font-tech uppercase tracking-widest">Wähle deinen Service</p>
-                    
-                    <div class="space-y-3">
-                        <!-- Inspektion -->
-                        <div class="border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-black/40">
-                            <button class="accordion-btn w-full px-4 py-4 flex justify-between items-center text-left hover:bg-gray-200 dark:hover:bg-white/5 transition duration-300 group" aria-expanded="false" aria-label="Inspektion & Wartung Leistungen anzeigen">
-                                <div class="flex items-center gap-3">
-                                    <i class="fa-solid fa-clipboard-check text-brand-red text-xl w-6"></i>
-                                    <span class="font-bold text-lg font-header uppercase tracking-wide group-hover:text-brand-red transition-colors">Inspektion & Wartung</span>
-                                </div>
-                                <i class="fa-solid fa-chevron-down icon-chevron transition-transform duration-300 text-gray-500"></i>
-                            </button>
-                            <div class="accordion-content">
-                                <div class="p-4 space-y-4 text-sm 2xl:text-lg border-t border-gray-700">
-                                    <div class="flex justify-between items-center border-b border-gray-700/50 pb-2">
-                                        <div><strong class="text-brand-red">Große Inspektion</strong><br><span class="text-xs opacity-60">Nach Herstellervorgaben inkl. Mobilitätsgarantie</span></div>
-                                        <span class="font-mono text-brand-red whitespace-nowrap ml-2">ab 149 €</span>
-                                    </div>
-                                    <div class="flex justify-between items-center border-b border-gray-700/50 pb-2">
-                                        <div><strong class="text-brand-red">Ölwechsel Service</strong><br><span class="text-xs opacity-60">Premium Longlife Öl & Markenfilter</span></div>
-                                        <span class="font-mono text-brand-red whitespace-nowrap ml-2">ab 89 €</span>
-                                    </div>
-                                    <div class="flex justify-between items-center pb-2">
-                                        <div><strong class="text-brand-red">Klimaservice</strong><br><span class="text-xs opacity-60">Dichtheitsprüfung & Befüllung</span></div>
-                                        <span class="font-mono text-brand-red whitespace-nowrap ml-2">69 €</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Reifen -->
-                        <div class="border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-black/40">
-                            <button class="accordion-btn w-full px-4 py-4 flex justify-between items-center text-left hover:bg-gray-200 dark:hover:bg-white/5 transition duration-300 group" aria-expanded="false" aria-label="Reifen & Räder Leistungen anzeigen">
-                                <div class="flex items-center gap-3">
-                                    <i class="fa-solid fa-car-on text-brand-red text-xl w-6"></i>
-                                    <span class="font-bold text-lg font-header uppercase tracking-wide group-hover:text-brand-red transition-colors">Reifen & Räder</span>
-                                </div>
-                                <i class="fa-solid fa-chevron-down icon-chevron transition-transform duration-300 text-gray-500"></i>
-                            </button>
-                            <div class="accordion-content">
-                                <div class="p-4 space-y-4 text-sm 2xl:text-lg border-t border-gray-700">
-                                    <div class="flex justify-between items-center border-b border-gray-700/50 pb-2">
-                                        <div><strong>Radwechsel (bis 18 Zoll)</strong><br><span class="text-xs opacity-60">Pro Satz (4 Räder) inkl. Wuchten</span></div>
-                                        <span class="font-mono text-brand-red whitespace-nowrap ml-2">25 €</span>
-                                    </div>
-                                    <div class="flex justify-between items-center border-b border-gray-700/50 pb-2">
-                                        <div><strong>Radwechsel (ab 19 Zoll)</strong><br><span class="text-xs opacity-60">Pro Satz (4 Räder) inkl. Wuchten</span></div>
-                                        <span class="font-mono text-brand-red whitespace-nowrap ml-2">35 €</span>
-                                    </div>
-                                    <div class="flex justify-between items-center border-b border-gray-700/50 pb-2">
-                                        <div><strong>Reifenmontage</strong><br><span class="text-xs opacity-60">Aufziehen neuer Reifen & Entsorgung</span></div>
-                                        <span class="font-mono text-brand-red whitespace-nowrap ml-2">ab 15 €/Stk</span>
-                                    </div>
-                                    <div class="flex justify-between items-center">
-                                        <div><strong>Achsvermessung</strong><br><span class="text-xs opacity-60">3D Laser-Vermessung</span></div>
-                                        <span class="font-mono text-brand-red whitespace-nowrap ml-2">79 €</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Performance -->
-                        <div class="border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-black/40">
-                            <button class="accordion-btn w-full px-4 py-4 flex justify-between items-center text-left hover:bg-gray-200 dark:hover:bg-white/5 transition duration-300 group" aria-expanded="false" aria-label="Performance & TÜV Leistungen anzeigen">
-                                <div class="flex items-center gap-3">
-                                    <i class="fa-solid fa-gauge-high text-brand-red text-xl w-6"></i>
-                                    <span class="font-bold text-lg font-header uppercase tracking-wide group-hover:text-brand-red transition-colors">Performance & TÜV</span>
-                                </div>
-                                <i class="fa-solid fa-chevron-down icon-chevron transition-transform duration-300 text-gray-500"></i>
-                            </button>
-                            <div class="accordion-content">
-                                <div class="p-4 space-y-4 text-sm 2xl:text-lg border-t border-gray-700">
-                                    <div class="flex justify-between items-center border-b border-gray-700/50 pb-2">
-                                        <div><strong>Hauptuntersuchung (HU/AU)</strong><br><span class="text-xs opacity-60">Di & Do im Haus</span></div>
-                                        <span class="font-mono text-brand-red whitespace-nowrap ml-2">145 €</span>
-                                    </div>
-                                    <div class="flex justify-between items-center border-b border-gray-700/50 pb-2">
-                                        <div><strong>Fahrzeugaufbereitung</strong><br><span class="text-xs opacity-60">Innen & Außen Premium</span></div>
-                                        <span class="font-mono text-brand-red whitespace-nowrap ml-2">ab 199 €</span>
-                                    </div>
-                                    <div class="flex justify-between items-center">
-                                        <div><strong>Fehlerspeicher Diagnose</strong><br><span class="text-xs opacity-60">Auslesen & Löschen</span></div>
-                                        <span class="font-mono text-brand-red whitespace-nowrap ml-2">25 €</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- 5. GALERIE -->
                 <section class="service-card p-6">
-                    <h2 class="text-center font-header font-bold text-2xl sm:text-3xl 2xl:text-4xl mb-6 flex items-center justify-center gap-3 uppercase italic">
-                        <i class="fa-solid fa-camera text-brand-red"></i> Werkstatt
-                    </h2>
-                    <div class="grid grid-cols-2 gap-2">
-                        <div class="h-32 bg-gray-200 dark:bg-gray-800 flex items-center justify-center border border-gray-700 relative overflow-hidden group">
-                            <img src="https://placehold.co/400x300/111111/ff1a1a?text=Foto+Platzhalter" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-500 grayscale group-hover:grayscale-0" alt="Werkstatt Hebebühne">
-                        </div>
-                        <div class="h-32 bg-gray-200 dark:bg-gray-800 flex items-center justify-center border border-gray-700 relative overflow-hidden group">
-                             <img src="https://placehold.co/400x300/111111/ff1a1a?text=Foto+Platzhalter" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-500 grayscale group-hover:grayscale-0" alt="Motordiagnose">
-                        </div>
-                        <div class="h-32 bg-gray-200 dark:bg-gray-800 flex items-center justify-center border border-gray-700 relative overflow-hidden group col-span-2">
-                             <img src="https://placehold.co/800x400/111111/ff1a1a?text=Panorama+Platzhalter" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-500 grayscale group-hover:grayscale-0" alt="Werkstatt Panorama">
-                             <div class="absolute inset-0 flex items-center justify-center">
-                                <span class="bg-black/70 px-4 py-1 text-white text-xs uppercase border border-brand-red">Modernste Technik</span>
-                             </div>
+                    <h2 class="text-center font-header font-bold text-2xl text-black dark:text-white mb-6 uppercase italic">Leistungen</h2>
+                    <div class="space-y-4">
+                        <!-- Radwechsel Item (Beispiel für CLS-Vermeidung durch Struktur) -->
+                        <div class="border border-gray-800 bg-black/20">
+                            <button class="accordion-btn w-full px-4 py-4 flex justify-between items-center text-left" aria-expanded="false">
+                                <span class="font-bold uppercase font-header tracking-wide">Reifen & Räder</span>
+                                <i class="fa-solid fa-chevron-down text-gray-500"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="p-4 space-y-4 text-sm border-t border-gray-800">
+                                    <div class="flex justify-between">
+                                        <span>Radwechsel bis 18"</span>
+                                        <span class="text-brand-red font-mono">25 €</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>Radwechsel ab 19"</span>
+                                        <span class="text-brand-red font-mono">35 €</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>
 
-                <!-- 6. ANFAHRT & FOOTER -->
-                <section class="service-card p-6 pb-8">
-                    <h2 class="text-center font-header font-bold text-2xl sm:text-3xl 2xl:text-4xl mb-6 flex items-center justify-center gap-3 uppercase italic">
-                        <i class="fa-solid fa-location-dot text-brand-red"></i> Anfahrt
-                    </h2>
-                    <p class="text-center mb-6 font-medium 2xl:text-lg font-tech text-gray-500 dark:text-gray-400">
-                        Hauptstraße 12, 55469 Simmern
-                    </p>
+                <!-- 4. GALERIE: High-End Image Handling -->
+                <section class="service-card p-6">
+                    <h2 class="text-center font-header font-bold text-2xl text-black dark:text-white mb-6 uppercase italic">Werkstatt</h2>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="relative overflow-hidden">
+                            <img 
+                                src="https://placehold.co/400x300/111111/ff1a1a?text=Service" 
+                                width="400" 
+                                height="300" 
+                                loading="lazy" 
+                                decoding="async"
+                                style="aspect-ratio: 400 / 300; width: 100%; height: auto;"
+                                alt="Werkstatt Service Bereich"
+                                class="grayscale hover:grayscale-0 transition-all duration-500"
+                            >
+                        </div>
+                        <div class="relative overflow-hidden">
+                            <img 
+                                src="https://placehold.co/400x300/111111/ff1a1a?text=Diagnose" 
+                                width="400" 
+                                height="300" 
+                                loading="lazy" 
+                                decoding="async"
+                                style="aspect-ratio: 400 / 300; width: 100%; height: auto;"
+                                alt="Fahrzeugdiagnose"
+                                class="grayscale hover:grayscale-0 transition-all duration-500"
+                            >
+                        </div>
+                    </div>
+                </section>
 
-                    <a href="https://maps.google.com/?q=Simmern+Hunsrück" target="_blank" class="block w-full h-40 2xl:h-56 bg-gray-900 rounded-sm relative overflow-hidden group border border-gray-700 transition-all hover:border-brand-red" aria-label="Route in Google Maps öffnen">
-                        <img src="https://maps.googleapis.com/maps/api/staticmap?center=Simmern&zoom=14&size=800x400&sensor=false&maptype=roadmap&style=feature:all|element:all|saturation:-100|lightness:-50&key=" onerror="this.src='https://placehold.co/800x400/111111/333333?text=KARTE+LADEN'" class="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity" alt="Karte Standort Simmern">
+                <!-- 5. ANFAHRT -->
+                <section class="service-card p-6 pb-8 text-center">
+                    <h2 class="font-header font-bold text-2xl text-black dark:text-white mb-4 uppercase italic">Anfahrt</h2>
+                    <p class="text-gray-500 text-sm mb-6">Hauptstraße 12, 55469 Simmern</p>
+                    <a href="https://maps.google.com" target="_blank" class="block relative overflow-hidden border border-gray-800" aria-label="Route in Google Maps öffnen">
+                        <img 
+                            src="https://placehold.co/800x400/111111/333333?text=Standort+Simmern" 
+                            width="800" 
+                            height="400" 
+                            loading="lazy" 
+                            decoding="async"
+                            style="aspect-ratio: 800 / 400; width: 100%; height: auto;"
+                            alt="Karte Standort Simmern"
+                            class="opacity-60"
+                        >
                         <div class="absolute inset-0 flex items-center justify-center">
-                            <span class="bg-brand-red text-white px-6 py-2 font-bold shadow-[0_0_20px_rgba(255,0,0,0.5)] uppercase tracking-wider transform skew-x-[-10deg] group-hover:scale-110 transition-transform flex items-center">
-                                <i class="fa-solid fa-location-arrow mr-2"></i> Route starten
-                            </span>
+                            <span class="bg-brand-red text-white px-6 py-2 font-bold uppercase text-xs tracking-widest transform -skew-x-12">Route starten</span>
                         </div>
                     </a>
-
-                    <div class="mt-8 flex justify-center gap-8">
-                        <a href="#" class="text-3xl 2xl:text-4xl text-gray-600 dark:text-gray-500 hover:text-brand-red transition-colors" aria-label="Besuchen Sie uns auf Instagram"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="#" class="text-3xl 2xl:text-4xl text-gray-600 dark:text-gray-500 hover:text-blue-600 transition-colors" aria-label="Besuchen Sie uns auf Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-                        <a href="#" class="text-3xl 2xl:text-4xl text-gray-600 dark:text-gray-500 hover:text-green-500 transition-colors" aria-label="Kontakt per WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
-                    </div>
-
-                    <p class="text-center text-xs opacity-30 mt-8 font-light uppercase tracking-widest">
-                        © 2026 Autoservice Simmern
-                    </p>
                 </section>
 
-            </div> <!-- Layout Wrapper -->
-        </div> <!-- Scroll Content -->
-    </div> <!-- Scroll Container -->
+                <footer class="text-center text-xs text-gray-600 uppercase tracking-widest pt-4">
+                    © 2026 Autoservice Simmern
+                </footer>
 
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS: Am Ende, um Rendering nicht zu blockieren -->
     <script>
-        // Dark Mode
-        if (localStorage.theme === 'light') document.documentElement.classList.remove('dark');
-        else document.documentElement.classList.add('dark');
+        // Dark Mode Check
+        const isLight = localStorage.theme === 'light';
+        document.documentElement.classList.toggle('dark', !isLight);
 
         function toggleDarkMode() {
-            if (document.documentElement.classList.contains('dark')) {
-                document.documentElement.classList.remove('dark');
-                localStorage.theme = 'light';
-            } else {
-                document.documentElement.classList.add('dark');
-                localStorage.theme = 'dark';
-            }
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.theme = isDark ? 'dark' : 'light';
         }
 
-        // Accordion mit ARIA Support
-        const accordions = document.querySelectorAll('.accordion-btn');
-        accordions.forEach(acc => {
-            acc.addEventListener('click', function() {
-                accordions.forEach(otherAcc => {
-                    if (otherAcc !== this) {
-                        otherAcc.classList.remove('active');
-                        otherAcc.setAttribute('aria-expanded', 'false');
-                        otherAcc.nextElementSibling.style.maxHeight = null;
-                        const icon = otherAcc.querySelector('.icon-chevron');
-                        if(icon) icon.style.transform = 'rotate(0deg)';
-                    }
-                });
-                this.classList.toggle('active');
-                const panel = this.nextElementSibling;
-                const icon = this.querySelector('.icon-chevron');
-                if (panel.style.maxHeight) {
-                    panel.style.maxHeight = null;
-                    if(icon) icon.style.transform = 'rotate(0deg)';
-                    this.setAttribute('aria-expanded', 'false');
-                } else {
-                    panel.style.maxHeight = panel.scrollHeight + "px";
-                    if(icon) icon.style.transform = 'rotate(180deg)';
-                    this.setAttribute('aria-expanded', 'true');
-                }
+        // Simple Accordion
+        document.querySelectorAll('.accordion-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const expanded = btn.getAttribute('aria-expanded') === 'true';
+                btn.setAttribute('aria-expanded', !expanded);
+                const content = btn.nextElementSibling;
+                content.style.maxHeight = expanded ? null : content.scrollHeight + "px";
+                btn.querySelector('i').style.transform = expanded ? 'rotate(0deg)' : 'rotate(180deg)';
             });
         });
 
-        // --- HIGH-PERFORMANCE RUBBER BANDING CLASS ---
+        // --- HIGH-PERFORMANCE RUBBER BANDING ---
         class RubberBandOverscroll {
-            constructor(containerElement, contentElement) {
-                this.container = containerElement;
-                this.content = contentElement;
+            constructor(container, content) {
+                this.container = container;
+                this.content = content;
                 this.startY = 0;
                 this.offset = 0;
                 this.unresistedOffset = 0;
@@ -414,98 +296,115 @@
                 this.isOverscrolling = false;
                 this.renderPending = false;
                 this.wheelTimeout = null;
-                this.maxScroll = 0; 
+                this.maxScroll = 0;
+
                 this.onTouchStart = this.onTouchStart.bind(this);
                 this.onTouchMove = this.onTouchMove.bind(this);
                 this.onTouchEnd = this.onTouchEnd.bind(this);
                 this.onWheel = this.onWheel.bind(this);
                 this.render = this.render.bind(this);
                 this.animateSnap = this.animateSnap.bind(this);
-                this.bindEvents();
+                
+                this.init();
             }
-            bindEvents() {
+
+            init() {
                 this.container.addEventListener('touchstart', this.onTouchStart, { passive: true });
                 this.container.addEventListener('touchmove', this.onTouchMove, { passive: false });
                 this.container.addEventListener('touchend', this.onTouchEnd, { passive: true });
-                this.container.addEventListener('touchcancel', this.onTouchEnd, { passive: true });
                 this.container.addEventListener('wheel', this.onWheel, { passive: false });
             }
-            calculateResistance(distance) {
-                const absDist = Math.abs(distance);
-                return Math.sign(distance) * (absDist * 0.35 * (1 - Math.exp(-absDist * 0.0066666)));
+
+            calculateResistance(d) {
+                const a = Math.abs(d);
+                return Math.sign(d) * (a * 0.35 * (1 - Math.exp(-a * 0.0066666)));
             }
-            static easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+
             onTouchStart(e) {
                 this.isDragging = true;
                 this.startY = e.touches[0].clientY;
                 this.maxScroll = this.container.scrollHeight - this.container.clientHeight;
                 if (this.offset !== 0) this.startY -= this.unresistedOffset;
             }
+
             onTouchMove(e) {
                 if (!this.isDragging) return;
                 const deltaY = e.touches[0].clientY - this.startY;
-                const isAtTop = this.container.scrollTop <= 0 && deltaY > 0;
-                const isAtBottom = this.container.scrollTop >= this.maxScroll && deltaY < 0;
-                if (isAtTop || isAtBottom || this.offset !== 0) {
+                const top = this.container.scrollTop <= 0 && deltaY > 0;
+                const bottom = this.container.scrollTop >= this.maxScroll && deltaY < 0;
+
+                if (top || bottom || this.offset !== 0) {
                     if (e.cancelable) e.preventDefault();
                     if (!this.isOverscrolling) this.content.style.willChange = 'transform';
                     this.isOverscrolling = true;
                     this.unresistedOffset = deltaY;
-                    this.offset = this.calculateResistance(this.unresistedOffset);
-                    this.scheduleRender();
+                    this.offset = this.calculateResistance(deltaY);
+                    this.schedule();
                 }
             }
+
             onTouchEnd() {
                 this.isDragging = false;
-                if (this.offset !== 0) this.snapBack();
+                if (this.offset !== 0) this.snap();
             }
+
             onWheel(e) {
                 const max = this.container.scrollHeight - this.container.clientHeight;
-                const isAtTop = this.container.scrollTop <= 0 && e.deltaY < 0;
-                const isAtBottom = this.container.scrollTop >= max && e.deltaY > 0;
-                if (isAtTop || isAtBottom || this.offset !== 0) {
+                const top = this.container.scrollTop <= 0 && e.deltaY < 0;
+                const bottom = this.container.scrollTop >= max && e.deltaY > 0;
+
+                if (top || bottom || this.offset !== 0) {
                     if (e.cancelable) e.preventDefault();
                     if (!this.isOverscrolling) this.content.style.willChange = 'transform';
                     this.isOverscrolling = true;
-                    this.unresistedOffset -= e.deltaY; 
+                    this.unresistedOffset -= e.deltaY;
                     this.offset = this.calculateResistance(this.unresistedOffset);
-                    this.scheduleRender();
+                    this.schedule();
                     clearTimeout(this.wheelTimeout);
-                    this.wheelTimeout = setTimeout(() => { if (!this.isDragging) this.snapBack(); }, 150);
+                    this.wheelTimeout = setTimeout(() => { if (!this.isDragging) this.snap(); }, 150);
                 }
             }
-            scheduleRender() {
-                if (!this.renderPending) { this.renderPending = true; requestAnimationFrame(this.render); }
+
+            schedule() {
+                if (!this.renderPending) {
+                    this.renderPending = true;
+                    requestAnimationFrame(this.render);
+                }
             }
+
             render() {
                 this.content.style.transform = `translateY(${this.offset}px)`;
                 this.renderPending = false;
             }
-            snapBack() {
+
+            snap() {
                 this.startOffset = this.offset;
                 this.startTime = performance.now();
                 requestAnimationFrame(this.animateSnap);
             }
-            animateSnap(currentTime) {
-                if (this.isDragging) return; 
-                const progress = Math.min((currentTime - this.startTime) / 400, 1);
-                this.offset = this.startOffset * (1 - RubberBandOverscroll.easeOutCubic(progress));
-                this.scheduleRender();
-                if (progress < 1) requestAnimationFrame(this.animateSnap);
+
+            animateSnap(t) {
+                if (this.isDragging) return;
+                const p = Math.min((t - this.startTime) / 400, 1);
+                const ease = 1 - Math.pow(1 - p, 3);
+                this.offset = this.startOffset * (1 - ease);
+                this.schedule();
+                if (p < 1) requestAnimationFrame(this.animateSnap);
                 else {
                     this.offset = 0; this.unresistedOffset = 0; this.isOverscrolling = false;
-                    this.scheduleRender();
-                    this.content.style.willChange = 'auto'; // Release GPU memory
+                    this.schedule();
+                    this.content.style.willChange = 'auto';
                     this.content.style.transform = '';
                 }
             }
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const container = document.getElementById('scroll-container');
-            const content = document.getElementById('scroll-content');
-            if(container && content) new RubberBandOverscroll(container, content);
-        });
+        window.onload = () => {
+            new RubberBandOverscroll(
+                document.getElementById('scroll-container'),
+                document.getElementById('scroll-content')
+            );
+        };
     </script>
 </body>
 </html>
